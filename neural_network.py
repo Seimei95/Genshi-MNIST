@@ -27,3 +27,33 @@ print("y_train shape:", y_train.shape)  # (60000, 1)
 print("y_test shape: ", y_test.shape)  # (10000, 1)
 print("y_train dtype:", y_train.dtype)  # float32
 print("Sample labels:", y_train[:5].flatten())
+
+
+def sigmoid(z):
+    ## converting output strings into integers
+    z = np.clip(z, -500, 500)
+    return 1 / (1 + np.exp(-z))
+
+
+def compute_loss(y_true, y_hat):
+    eps = 1e-15
+    y_hat = np.clip(y_hat, eps, 1 - eps)
+    # binary-cross-entropy-loss function
+    return -np.mean(y_true * np.log(y_hat) + (1 - y_true) * np.log(1 - y_hat))
+
+
+# testing both functions
+# Test sigmoid
+print(sigmoid(0))  # should print 0.5
+print(sigmoid(100))  # should print 1.0 (or very close)
+print(sigmoid(-100))  # should print 0.0 (or very close)
+
+# Test compute_loss
+# Perfect predictions — loss should be tiny
+y_true = np.array([[1.0], [0.0], [1.0]])
+y_hat_perfect = np.array([[0.99], [0.01], [0.99]])
+print(compute_loss(y_true, y_hat_perfect))  # should be very small ~0.01
+
+# Terrible predictions — loss should be large
+y_hat_terrible = np.array([[0.01], [0.99], [0.01]])
+print(compute_loss(y_true, y_hat_terrible))  # should be very large ~4.6
