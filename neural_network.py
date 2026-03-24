@@ -57,3 +57,23 @@ print(compute_loss(y_true, y_hat_perfect))  # should be very small ~0.01
 # Terrible predictions — loss should be large
 y_hat_terrible = np.array([[0.01], [0.99], [0.01]])
 print(compute_loss(y_true, y_hat_terrible))  # should be very large ~4.6
+
+
+def initialize_weights(hidden_size=64):
+    W_to_H = np.random.randn(784, hidden_size).astype(np.float32) * 0.01
+    B_to_H = np.zeros(hidden_size, dtype=np.float32)
+    Wh_to_O = np.random.randn(hidden_size, 1).astype(np.float32) * 0.01
+    B_to_O = np.zeros(1, dtype=np.float32)
+
+    return W_to_H, B_to_H, Wh_to_O, B_to_O
+
+
+W_to_H, B_to_H, Wh_to_O, B_to_O = initialize_weights(hidden_size=64)
+
+print(W_to_H.shape)  # (784, 64)
+print(B_to_H.shape)  # (64,)
+print(Wh_to_O.shape)  # (64, 1)
+print(B_to_O.shape)  # (1,)
+print(W_to_H.dtype)  # float32
+print(W_to_H.max())  # something small like 0.03
+print(W_to_H.min())  # something small like -0.03
